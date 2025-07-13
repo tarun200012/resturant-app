@@ -1,1 +1,32 @@
-<p>restaurant-table works!</p>
+<p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>mobile</th>
+            <th>Email</th>
+            <th>Id</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Address</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-row>
+        <tr>
+            <!-- Restaurant -->
+            <td>{{ row.id }}</td>   
+            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{ row.mobile }}</td>
+            <td>{{ row.email }}</td>
+            <!-- Location -->
+            <td>{{ row.id }}</td>
+            <td>{{ row.city }}</td>
+            <td>{{ row.state }}</td>
+            <td>{{ row.country }}</td>
+            <td>{{ row.address }}</td>
+        </tr>
+    </ng-template>
+</p-table>
