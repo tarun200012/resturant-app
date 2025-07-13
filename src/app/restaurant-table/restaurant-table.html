@@ -1,107 +1,130 @@
 <div>
-<p-table [value]="rowData" #dt2 
-[globalFilterFields]="['name', 'description', 'mobile', 'email', 'city', 'state', 'country', 'address']"
-[tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="10" sortMode="multiple"> 
-<ng-template #header>
-   <tr>
-      <th pSortableColumn="id">
-         <div class="flex items-center gap-2">
-            Id
-            <p-sortIcon field="id" />
-         </div>
-      </th>
-      <th pSortableColumn="name">
-         <div class="flex items-center gap-2">
-            Name
-            <p-sortIcon field="name" />
-         </div>
-      </th>
-      <th pSortableColumn="description">
-         <div class="flex items-center gap-2">
-            Description
-            <p-sortIcon field="description" />
-         </div>
-      </th>
-      <th pSortableColumn="mobile">
-         <div class="flex items-center gap-2">
-            Mobile
-            <p-sortIcon field="mobile" />
-         </div>
-      </th>
-      <th pSortableColumn="email">
-         <div class="flex items-center gap-2">
-            Email
-            <p-sortIcon field="email" />
-         </div>
-      </th>
-      <th pSortableColumn="city">
-         <div class="flex items-center gap-2">
-            City
-            <p-sortIcon field="city" />
-         </div>
-      </th>
-      <th pSortableColumn="state">
-         <div class="flex items-center gap-2">
-            State
-            <p-sortIcon field="state" />
-         </div>
-      </th>
-      <th pSortableColumn="country">
-         <div class="flex items-center gap-2">
-            Country
-            <p-sortIcon field="country" />
-         </div>
-      </th>
-      <th pSortableColumn="address">
-         <div class="flex items-center gap-2">
-            Address
-            <p-sortIcon field="address" />
-         </div>
-      </th>
-   </tr>
-   
-   <tr>
-      <th>
-         <p-columnFilter type="text" field="id" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-      </th>
-      <th>
-        <p-columnFilter type="text" field="name" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="description" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="mobile" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="email" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="city" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="state" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="country" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-     <th>
-        <p-columnFilter type="text" field="address" placeholder="Type to search" ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
-     </th>
-   </tr>
-</ng-template>
-<ng-template #body let-row>
-   <tr>
-      <td>{{ row.id }}</td>
-      <td>{{ row.name }}</td>
-      <td>{{ row.description }}</td>
-      <td>{{ row.mobile }}</td>
-      <td>{{ row.email }}</td>
-      <td>{{ row.city }}</td>
-      <td>{{ row.state }}</td>
-      <td>{{ row.country }}</td>
-      <td>{{ row.address }}</td>
-   </tr>
-</ng-template>
-</p-table>
+    <p-table [value]="rowData" #dt2
+        [globalFilterFields]="['name', 'description', 'mobile', 'email', 'city', 'state', 'country', 'address']"
+        [tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="10" sortMode="multiple">
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="id">
+                    <div class="flex items-center gap-2">
+                        Id
+                        <p-sortIcon field="id" />
+                    </div>
+                </th>
+                <th pSortableColumn="name">
+                    <div class="flex items-center gap-2">
+                        Name
+                        <p-sortIcon field="name" />
+                    </div>
+                </th>
+                <th pSortableColumn="description">
+                    <div class="flex items-center gap-2">
+                        Description
+                        <p-sortIcon field="description" />
+                    </div>
+                </th>
+                <th pSortableColumn="mobile">
+                    <div class="flex items-center gap-2">
+                        Mobile
+                        <p-sortIcon field="mobile" />
+                    </div>
+                </th>
+                <th pSortableColumn="email">
+                    <div class="flex items-center gap-2">
+                        Email
+                        <p-sortIcon field="email" />
+                    </div>
+                </th>
+                <th pSortableColumn="city">
+                    <div class="flex items-center gap-2">
+                        City
+                        <p-sortIcon field="city" />
+                    </div>
+                </th>
+                <th pSortableColumn="state">
+                    <div class="flex items-center gap-2">
+                        State
+                        <p-sortIcon field="state" />
+                    </div>
+                </th>
+                <th pSortableColumn="country">
+                    <div class="flex items-center gap-2">
+                        Country
+                        <p-sortIcon field="country" />
+                    </div>
+                </th>
+                <th pSortableColumn="address">
+                    <div class="flex items-center gap-2">
+                        Address
+                        <p-sortIcon field="address" />
+                    </div>
+                </th>
+                <th>
+                    <div class="flex items-center gap-2">
+                        Actions
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="id" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="name" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="description" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="mobile" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="email" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="city" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="state" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="country" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="address" placeholder="Type to search" ariaLabel="Filter Name"
+                        filterOn="input"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-row>
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.description }}</td>
+                <td>{{ row.mobile }}</td>
+                <td>{{ row.email }}</td>
+                <td>{{ row.city }}</td>
+                <td>{{ row.state }}</td>
+                <td>{{ row.country }}</td>
+                <td>{{ row.address }}</td>
+
+                <td class="flex items-center justify-center">
+                    <div style="margin: 8px;">
+                        <p-button>Edit</p-button>
+                    </div>
+                    <div style="margin: 8px;"> 
+                        <p-button>Delete</p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
