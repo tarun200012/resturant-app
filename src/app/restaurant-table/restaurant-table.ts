@@ -18,7 +18,9 @@ interface Location {
 }
 
 
-interface RowData extends Restaurant, Location {}
+interface RowData extends Restaurant, Location {
+  // TODO: add edit and delete handlers
+}
 
 @Component({
   selector: 'app-restaurant-table',
