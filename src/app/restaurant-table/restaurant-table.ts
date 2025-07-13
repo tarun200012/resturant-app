@@ -1,5 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 interface Restaurant {
   id: number;
@@ -24,7 +31,8 @@ interface RowData extends Restaurant, Location {
 
 @Component({
   selector: 'app-restaurant-table',
-  imports: [TableModule],
+  // imports: [TableModule, IconFieldModule],
+  imports: [TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, SelectModule, CommonModule],
   templateUrl: './restaurant-table.html',
   styleUrl: './restaurant-table.css'
 })
@@ -87,4 +95,9 @@ export class RestaurantTable {
       address: "654 Beacon St, Back Bay"
     }
   ];
+
+  handleFilter(event:KeyboardEvent) {
+    event.stopPropagation();
+    console.log(event)
+  }
 }
