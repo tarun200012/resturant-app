@@ -1,6 +1,7 @@
+<div>
 <p-table [value]="rowData" #dt2 
 [globalFilterFields]="['name', 'description', 'mobile', 'email', 'city', 'state', 'country', 'address']"
-[tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="2" sortMode="multiple"> 
+[tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="10" sortMode="multiple"> 
 <ng-template #header>
    <tr>
       <th pSortableColumn="id">
@@ -103,3 +104,4 @@
    </tr>
 </ng-template>
 </p-table>
+</div>
