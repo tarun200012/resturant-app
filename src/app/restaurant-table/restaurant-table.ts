@@ -31,8 +31,7 @@ interface RowData extends Restaurant, Location {
 
 @Component({
   selector: 'app-restaurant-table',
-  // imports: [TableModule, IconFieldModule],
-  imports: [TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, SelectModule, CommonModule],
+  imports: [TableModule, IconFieldModule],
   templateUrl: './restaurant-table.html',
   styleUrl: './restaurant-table.css'
 })
@@ -95,9 +94,4 @@ export class RestaurantTable {
       address: "654 Beacon St, Back Bay"
     }
   ];
-
-  handleFilter(event:KeyboardEvent) {
-    event.stopPropagation();
-    console.log(event)
-  }
 }
