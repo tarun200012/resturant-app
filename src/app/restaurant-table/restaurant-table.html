@@ -1,32 +1,82 @@
-<p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="2" sortMode="multiple"> 
     <ng-template #header>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>mobile</th>
-            <th>Email</th>
-            <th>Id</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Country</th>
-            <th>Address</th>
-        </tr>
+       <tr>
+          <th pSortableColumn="id">
+             <div class="flex items-center gap-2">
+                Id
+                <p-sortIcon field="id" />
+             </div>
+          </th>
+          <th pSortableColumn="name">
+             <div class="flex items-center gap-2">
+                Name
+                <p-sortIcon field="name" />
+             </div>
+          </th>
+          <th pSortableColumn="description">
+             <div class="flex items-center gap-2">
+                Description
+                <p-sortIcon field="description" />
+             </div>
+          </th>
+          <th pSortableColumn="mobile">
+             <div class="flex items-center gap-2">
+                Mobile
+                <p-sortIcon field="mobile" />
+             </div>
+          </th>
+          <th pSortableColumn="email">
+             <div class="flex items-center gap-2">
+                Email
+                <p-sortIcon field="email" />
+             </div>
+          </th>
+          <th pSortableColumn="id">
+             <div class="flex items-center gap-2">
+                Id
+                <p-sortIcon field="id" />
+             </div>
+          </th>
+          <th pSortableColumn="city">
+             <div class="flex items-center gap-2">
+                City
+                <p-sortIcon field="city" />
+             </div>
+          </th>
+          <th pSortableColumn="state">
+             <div class="flex items-center gap-2">
+                State
+                <p-sortIcon field="state" />
+             </div>
+          </th>
+          <th pSortableColumn="country">
+             <div class="flex items-center gap-2">
+                Country
+                <p-sortIcon field="country" />
+             </div>
+          </th>
+          <th pSortableColumn="address">
+             <div class="flex items-center gap-2">
+                Address
+                <p-sortIcon field="address" />
+             </div>
+          </th>
+       </tr>
     </ng-template>
     <ng-template #body let-row>
-        <tr>
-            <!-- Restaurant -->
-            <td>{{ row.id }}</td>   
-            <td>{{ row.name }}</td>
-            <td>{{ row.description }}</td>
-            <td>{{ row.mobile }}</td>
-            <td>{{ row.email }}</td>
-            <!-- Location -->
-            <td>{{ row.id }}</td>
-            <td>{{ row.city }}</td>
-            <td>{{ row.state }}</td>
-            <td>{{ row.country }}</td>
-            <td>{{ row.address }}</td>
-        </tr>
+       <tr>
+          <!-- Restaurant -->
+          <td>{{ row.id }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.mobile }}</td>
+          <td>{{ row.email }}</td>
+          <!-- Location -->
+          <td>{{ row.id }}</td>
+          <td>{{ row.city }}</td>
+          <td>{{ row.state }}</td>
+          <td>{{ row.country }}</td>
+          <td>{{ row.address }}</td>
+       </tr>
     </ng-template>
-</p-table>
+    </p-table>
