@@ -6,22 +6,22 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Restaurant Name *</label>
-                <input placeholder="Enter restaurant name" 
+                <input [(ngModel)]="nameInput" placeholder="Enter restaurant name" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Email *</label>
-                <input  placeholder="Enter email address" 
+                <input [(ngModel)]="emailInput" placeholder="Enter email address" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Mobile *</label>
-                <input  placeholder="Enter mobile number" 
+                <input [(ngModel)]="mobileInput" placeholder="Enter mobile number" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Description</label>
-                <input  placeholder="Enter description (optional)" 
+                <input [(ngModel)]="descriptionInput" placeholder="Enter description (optional)" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
         </div>
@@ -33,22 +33,22 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">City *</label>
-                <input placeholder="Enter city" 
+                <input [(ngModel)]="cityInput" placeholder="Enter city" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">State *</label>
-                <input placeholder="Enter state" 
+                <input [(ngModel)]="stateInput" placeholder="Enter state" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Country *</label>
-                <input placeholder="Enter country" 
+                <input [(ngModel)]="countryInput" placeholder="Enter country" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Address *</label>
-                <input   placeholder="Enter full address" 
+                <input [(ngModel)]="addressInput" placeholder="Enter full address" 
                        style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
             </div>
         </div>
@@ -58,25 +58,27 @@
     <div style="display: flex; gap: 10px; align-items: center;">
         <p-button label="Add Restaurant" 
                  icon="pi pi-plus"
+                 (onClick)="addRestaurant()"
                  styleClass="bg-green-500 hover:bg-green-600">
         </p-button>
         <p-button label="Clear Form" 
                  icon="pi pi-trash"
+                 (onClick)="clearForm()"
                  severity="secondary"
                  styleClass="bg-gray-500 hover:bg-gray-600">
         </p-button>
     </div>
 
     <!-- Validation Errors -->
-    <!-- <div style="margin-top: 15px; padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
+    <div *ngIf="validationErrors.length > 0" style="margin-top: 15px; padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
         <h5 style="margin-bottom: 8px; color: #dc2626; font-size: 14px; font-weight: 600;">Validation Errors:</h5>
         <ul style="margin: 0; padding-left: 20px; color: #dc2626; font-size: 13px;">
             <li *ngFor="let error of validationErrors">{{ error }}</li>
         </ul>
-    </div> -->
+    </div>
 
-    <!-- Success Message
+    <!-- Success Message -->
     <div *ngIf="successMessage" style="margin-top: 15px; padding: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px;">
         <p style="margin: 0; color: #166534; font-size: 14px;">{{ successMessage }}</p>
-    </div> -->
+    </div>
 </div>
