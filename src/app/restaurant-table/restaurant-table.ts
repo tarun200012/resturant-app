@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
 
 interface RowData extends Restaurant {
@@ -18,7 +19,7 @@ interface RowData extends Restaurant {
   styleUrl: './restaurant-table.css'
 })
 
-export class RestaurantTable implements OnInit {
+export class RestaurantTable implements OnInit, OnDestroy {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
   protected restaurantToDelete: RowData | null = null;
@@ -29,10 +30,30 @@ export class RestaurantTable implements OnInit {
   protected loading = true;
   protected errorMessage = "";
 
+  // Route subscription
+  private routeSubscription: Subscription | null = null;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.loadRestaurants();
+    
+    // Subscribe to route changes to refresh data when returning to home page
+    this.routeSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // If we're navigating to the home page (root path), refresh the data
+        if (event.url === '/' || event.url === '') {
+          this.loadRestaurants();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    // Clean up subscription to prevent memory leaks
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 
   // Load restaurants from localStorage API
