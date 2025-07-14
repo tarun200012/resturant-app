@@ -22,6 +22,7 @@ export class RestaurantTable implements OnInit {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
   protected restaurantToDelete: RowData | null = null;
+  protected deleting = false;
 
   // Table data
   protected rowData: RowData[] = [];
@@ -65,19 +66,21 @@ export class RestaurantTable implements OnInit {
   protected cancelDelete(): void {
     this.deleteDialogVisible = false;
     this.restaurantToDelete = null;
+    this.deleting = false;
   }
 
   // Confirm delete operation
   protected async confirmDelete(): Promise<void> {
     if (this.restaurantToDelete) {
       try {
+        this.deleting = true;
         console.log('Deleting restaurant with ID:', this.restaurantToDelete.id);
         
         // Delete from localStorage API
         await deleteRestaurant(this.restaurantToDelete.id);
         
-        // Remove from local array
-        this.rowData = this.rowData.filter(restaurant => restaurant.id !== this.restaurantToDelete!.id);
+        // Refresh the entire data to ensure consistency
+        await this.loadRestaurants();
         
         // Close the modal and reset
         this.deleteDialogVisible = false;
@@ -87,12 +90,20 @@ export class RestaurantTable implements OnInit {
       } catch (error) {
         console.error('Error deleting restaurant:', error);
         this.errorMessage = 'Failed to delete restaurant. Please try again.';
+      } finally {
+        this.deleting = false;
       }
     }
   }
 
   // Refresh restaurants data
   protected async refreshData(): Promise<void> {
+    await this.loadRestaurants();
+  }
+
+  // Method to be called when returning from edit/add pages
+  protected async onPageActivate(): Promise<void> {
+    // Refresh data when component becomes active (e.g., returning from edit page)
     await this.loadRestaurants();
   }
 }

@@ -190,13 +190,15 @@
                     label="Cancel" 
                     icon="pi pi-times" 
                     (onClick)="cancelDelete()" 
+                    [disabled]="deleting"
                     severity="secondary" 
                     [outlined]="true">
                 </p-button>
                 <p-button 
-                    label="Delete" 
-                    icon="pi pi-trash" 
+                    [label]="deleting ? 'Deleting...' : 'Delete'" 
+                    [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'" 
                     (onClick)="confirmDelete()" 
+                    [disabled]="deleting"
                     severity="danger">
                 </p-button>
             </div>

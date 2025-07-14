@@ -166,6 +166,11 @@ export class ResturantForm implements OnInit {
           const updatedRestaurant = await updateRestaurant(this.restaurantId, updateData);
           console.log('Restaurant updated successfully:', updatedRestaurant);
           this.successMessage = "Restaurant updated successfully!";
+          
+          // Navigate back to table after a short delay
+          setTimeout(() => {
+            this.goBack();
+          }, 1500);
         } else {
           // Insert new restaurant
           const insertData: CreateRestaurantData = {
@@ -182,6 +187,11 @@ export class ResturantForm implements OnInit {
           const newRestaurant = await insertRestaurant(insertData);
           console.log('Restaurant added successfully:', newRestaurant);
           this.successMessage = "Restaurant added successfully!";
+          
+          // Navigate back to table after a short delay
+          setTimeout(() => {
+            this.goBack();
+          }, 1500);
         }
         
         // Clear form after successful operation
