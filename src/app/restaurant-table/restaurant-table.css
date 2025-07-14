@@ -1,0 +1,42 @@
+/* Delete Confirmation Modal Styles */
+.confirmation-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 0;
+}
+
+.confirmation-content i {
+  flex-shrink: 0;
+}
+
+.confirmation-content span {
+  line-height: 1.5;
+}
+
+/* Modal footer button spacing */
+:host ::ng-deep .p-dialog-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Button hover effects */
+:host ::ng-deep .p-button.p-button-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+:host ::ng-deep .p-button.p-button-secondary:hover {
+  background-color: #6b7280;
+  border-color: #6b7280;
+}
+
+/* Modal header styling */
+:host ::ng-deep .p-dialog-header {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:host ::ng-deep .p-dialog-title {
+  color: #374151;
+  font-weight: 600;
+}

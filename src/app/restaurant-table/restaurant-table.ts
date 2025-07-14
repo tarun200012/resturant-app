@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { CommonModule } from '@angular/common';
 
 interface Restaurant {
   id: number;
@@ -19,19 +21,22 @@ interface Location {
   address: string;
 }
 
-
 interface RowData extends Restaurant, Location {
   // TODO: add edit and delete handlers
 }
 
 @Component({
   selector: 'app-restaurant-table',
-  imports: [TableModule, IconFieldModule, ButtonModule],
+  imports: [TableModule, IconFieldModule, ButtonModule, DialogModule, CommonModule],
   templateUrl: './restaurant-table.html',
   styleUrl: './restaurant-table.css'
 })
 
 export class RestaurantTable {
+  // Delete confirmation modal properties
+  protected deleteDialogVisible = false;
+  protected restaurantToDelete: RowData | null = null;
+
   protected rowData: RowData[] = [
     {
       id: 1,
@@ -89,4 +94,27 @@ export class RestaurantTable {
       address: "654 Beacon St, Back Bay"
     }
   ];
+
+  // Open delete confirmation modal
+  protected openDeleteDialog(restaurant: RowData): void {
+    this.restaurantToDelete = restaurant;
+    this.deleteDialogVisible = true;
+  }
+
+  // Cancel delete operation
+  protected cancelDelete(): void {
+    this.deleteDialogVisible = false;
+    this.restaurantToDelete = null;
+  }
+
+  // Confirm delete operation
+  protected confirmDelete(): void {
+    if (this.restaurantToDelete) {
+      console.log('Deleting restaurant with ID:', this.restaurantToDelete.id);
+      // Remove the restaurant from the array      
+      // Close the modal and reset
+      this.deleteDialogVisible = false;
+      this.restaurantToDelete = null;
+    }
+  }
 }
