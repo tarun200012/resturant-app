@@ -39,7 +39,10 @@ export class ResturantForm {
   // Messages
   protected successMessage = "";
   protected errorMessage = "";
-  protected validationErrors: string[] = [];
+  
+  // Field-specific error messages
+  protected fieldErrors: { [key: string]: string } = {};
+
   // Form validation method using Zod
   protected validateForm(): SafeParseReturnType<z.infer<typeof this.restaurantSchema>, z.infer<typeof this.restaurantSchema>> {
     const formData = {
@@ -53,8 +56,30 @@ export class ResturantForm {
       description: this.descriptionInput
     };
 
-    const result =this.restaurantSchema.safeParse(formData);
+    const result = this.restaurantSchema.safeParse(formData);
+    
+    // Clear previous field errors
+    this.fieldErrors = {};
+    
+    // If validation failed, map errors to specific fields
+    if (!result.success) {
+      result.error.errors.forEach(error => {
+        const fieldName = error.path[0] as string;
+        this.fieldErrors[fieldName] = error.message;
+      });
+    }
+    
     return result;
+  }
+
+  // Get error message for a specific field
+  protected getFieldError(fieldName: string): string {
+    return this.fieldErrors[fieldName] || "";
+  }
+
+  // Check if a field has an error
+  protected hasFieldError(fieldName: string): boolean {
+    return !!this.fieldErrors[fieldName];
   }
 
   // Add restaurant method
@@ -64,8 +89,8 @@ export class ResturantForm {
     if (success) {
       console.log(data)
       this.successMessage = "Restaurant added successfully.";
+      this.clearForm();
     } else {
-      this.validationErrors = error.errors.map(err => err.message);
       this.errorMessage = "Please fix the validation errors below.";
     }
   }
@@ -87,6 +112,6 @@ export class ResturantForm {
   private clearMessages(): void {
     this.successMessage = "";
     this.errorMessage = "";
-    this.validationErrors = [];
+    this.fieldErrors = {};
   }
 }

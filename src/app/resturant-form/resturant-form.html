@@ -7,22 +7,38 @@
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Restaurant Name *</label>
                 <input [(ngModel)]="nameInput" placeholder="Enter restaurant name" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('name') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('name')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('name') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Email *</label>
                 <input [(ngModel)]="emailInput" placeholder="Enter email address" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('email') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('email')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('email') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Mobile *</label>
                 <input [(ngModel)]="mobileInput" placeholder="Enter mobile number" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('mobile') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('mobile')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('mobile') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Description</label>
                 <input [(ngModel)]="descriptionInput" placeholder="Enter description (optional)" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('description') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('description')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('description') }}
+                </div>
             </div>
         </div>
     </div>
@@ -34,22 +50,38 @@
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">City *</label>
                 <input [(ngModel)]="cityInput" placeholder="Enter city" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('city') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('city')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('city') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">State *</label>
                 <input [(ngModel)]="stateInput" placeholder="Enter state" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('state') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('state')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('state') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Country *</label>
                 <input [(ngModel)]="countryInput" placeholder="Enter country" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('country') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('country')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('country') }}
+                </div>
             </div>
             <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: 500; color: #374151;">Address *</label>
                 <input [(ngModel)]="addressInput" placeholder="Enter full address" 
-                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                       [style.border-color]="hasFieldError('address') ? '#dc2626' : '#d1d5db'"
+                       style="width: 100%; padding: 10px; border: 1px solid; border-radius: 6px; font-size: 14px;">
+                <div *ngIf="hasFieldError('address')" style="margin-top: 5px; color: #dc2626; font-size: 12px;">
+                    {{ getFieldError('address') }}
+                </div>
             </div>
         </div>
     </div>
@@ -67,14 +99,6 @@
                  severity="secondary"
                  styleClass="bg-gray-500 hover:bg-gray-600">
         </p-button>
-    </div>
-
-    <!-- Validation Errors -->
-    <div *ngIf="validationErrors.length > 0" style="margin-top: 15px; padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
-        <h5 style="margin-bottom: 8px; color: #dc2626; font-size: 14px; font-weight: 600;">Validation Errors:</h5>
-        <ul style="margin: 0; padding-left: 20px; color: #dc2626; font-size: 13px;">
-            <li *ngFor="let error of validationErrors">{{ error }}</li>
-        </ul>
     </div>
 
     <!-- Success Message -->
