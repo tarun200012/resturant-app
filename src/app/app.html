@@ -1,4 +1,10 @@
 <main class="main">
+  <router-outlet />
+  
+  <!-- Floating Action Button to Add Restaurant -->
+  <div class="fab-container">
+    <button class="fab-button" (click)="navigateToForm()" title="Add New Restaurant">
+      <i class="pi pi-plus"></i>
+    </button>
+  </div>
 </main>
-
-<router-outlet />

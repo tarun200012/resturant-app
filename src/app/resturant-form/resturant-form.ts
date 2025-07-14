@@ -3,6 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SafeParseReturnType, z } from 'zod';
+import { Router } from '@angular/router';
  
 @Component({
   selector: 'app-resturant-form',
@@ -42,6 +43,8 @@ export class ResturantForm {
   
   // Field-specific error messages
   protected fieldErrors: { [key: string]: string } = {};
+
+  constructor(private router: Router) {}
 
   // Form validation method using Zod
   protected validateForm(): SafeParseReturnType<z.infer<typeof this.restaurantSchema>, z.infer<typeof this.restaurantSchema>> {
@@ -113,5 +116,10 @@ export class ResturantForm {
     this.successMessage = "";
     this.errorMessage = "";
     this.fieldErrors = {};
+  }
+
+  // Navigate back to main page
+  protected goBack(): void {
+    this.router.navigate(['/']);
   }
 }
