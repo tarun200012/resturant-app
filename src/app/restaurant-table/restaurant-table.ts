@@ -1,28 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
 
-interface Restaurant {
-  id: number;
-  name: string;
-  description?: string; // optional
-  mobile: string;
-  email: string;
-}
-
-interface Location {
-  id: number;
-  city: string;
-  state: string;
-  country: string;
-  address: string;
-}
-
-interface RowData extends Restaurant, Location {
+interface RowData extends Restaurant {
   // TODO: add edit and delete handlers
 }
 
@@ -33,70 +18,37 @@ interface RowData extends Restaurant, Location {
   styleUrl: './restaurant-table.css'
 })
 
-export class RestaurantTable {
+export class RestaurantTable implements OnInit {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
   protected restaurantToDelete: RowData | null = null;
 
-  protected rowData: RowData[] = [
-    {
-      id: 1,
-      name: "Pizza Palace",
-      description: "Authentic Italian pizza with fresh ingredients",
-      mobile: "+1-555-0123",
-      email: "info@pizzapalace.com",
-      city: "New York",
-      state: "NY",
-      country: "USA",
-      address: "123 Broadway St, Manhattan"
-    },
-    {
-      id: 2,
-      name: "Sushi Express",
-      description: "Fresh sushi and Japanese cuisine",
-      mobile: "+1-555-0456",
-      email: "contact@sushiexpress.com",
-      city: "Los Angeles",
-      state: "CA",
-      country: "USA",
-      address: "456 Sunset Blvd, Hollywood"
-    },
-    {
-      id: 3,
-      name: "Burger House",
-      description: "Gourmet burgers and comfort food",
-      mobile: "+1-555-0789",
-      email: "hello@burgerhouse.com",
-      city: "Chicago",
-      state: "IL",
-      country: "USA",
-      address: "789 Michigan Ave, Downtown"
-    },
-    {
-      id: 4,
-      name: "Taco Fiesta",
-      description: "Authentic Mexican street food",
-      mobile: "+1-555-0321",
-      email: "orders@tacofiesta.com",
-      city: "Miami",
-      state: "FL",
-      country: "USA",
-      address: "321 Ocean Dr, South Beach"
-    },
-    {
-      id: 5,
-      name: "Pasta Corner",
-      description: "Traditional Italian pasta dishes",
-      mobile: "+1-555-0654",
-      email: "reservations@pastacorner.com",
-      city: "Boston",
-      state: "MA",
-      country: "USA",
-      address: "654 Beacon St, Back Bay"
-    }
-  ];
+  // Table data
+  protected rowData: RowData[] = [];
+  protected loading = true;
+  protected errorMessage = "";
 
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadRestaurants();
+  }
+
+  // Load restaurants from localStorage API
+  private async loadRestaurants(): Promise<void> {
+    try {
+      this.loading = true;
+      this.errorMessage = "";
+      const restaurants = await getAllRestaurants();
+      this.rowData = restaurants;
+      console.log('Restaurants loaded successfully:', restaurants);
+    } catch (error) {
+      console.error('Error loading restaurants:', error);
+      this.errorMessage = 'Failed to load restaurants. Please try again.';
+    } finally {
+      this.loading = false;
+    }
+  }
 
   // Navigate to edit restaurant page
   protected editRestaurant(restaurant: RowData): void {
@@ -116,13 +68,31 @@ export class RestaurantTable {
   }
 
   // Confirm delete operation
-  protected confirmDelete(): void {
+  protected async confirmDelete(): Promise<void> {
     if (this.restaurantToDelete) {
-      console.log('Deleting restaurant with ID:', this.restaurantToDelete.id);
-      // Remove the restaurant from the array      
-      // Close the modal and reset
-      this.deleteDialogVisible = false;
-      this.restaurantToDelete = null;
+      try {
+        console.log('Deleting restaurant with ID:', this.restaurantToDelete.id);
+        
+        // Delete from localStorage API
+        await deleteRestaurant(this.restaurantToDelete.id);
+        
+        // Remove from local array
+        this.rowData = this.rowData.filter(restaurant => restaurant.id !== this.restaurantToDelete!.id);
+        
+        // Close the modal and reset
+        this.deleteDialogVisible = false;
+        this.restaurantToDelete = null;
+        
+        console.log('Restaurant deleted successfully');
+      } catch (error) {
+        console.error('Error deleting restaurant:', error);
+        this.errorMessage = 'Failed to delete restaurant. Please try again.';
+      }
     }
+  }
+
+  // Refresh restaurants data
+  protected async refreshData(): Promise<void> {
+    await this.loadRestaurants();
   }
 }

@@ -1,7 +1,34 @@
 <div>
-    <p-table [value]="rowData" #dt2
+    <!-- Loading State -->
+    <div *ngIf="loading" style="display: flex; justify-content: center; align-items: center; padding: 2rem;">
+        <div style="text-align: center;">
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #667eea;"></i>
+            <p style="margin-top: 1rem; color: #6b7280;">Loading restaurants...</p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !loading" style="margin-bottom: 1rem; padding: 1rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: #dc2626;">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>{{ errorMessage }}</span>
+        </div>
+        <button (click)="refreshData()" 
+                style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Try Again
+        </button>
+    </div>
+
+    <!-- Restaurant Table -->
+    <p-table *ngIf="!loading && !errorMessage" 
+        [value]="rowData" 
+        #dt2
         [globalFilterFields]="['name', 'description', 'mobile', 'email', 'city', 'state', 'country', 'address']"
-        [tableStyle]="{ 'min-width': '50rem' } " paginator="true" [rows]="10" sortMode="multiple">
+        [tableStyle]="{ 'min-width': '50rem' } " 
+        paginator="true" 
+        [rows]="10" 
+        sortMode="multiple">
+        
         <ng-template #header>
             <tr>
                 <th pSortableColumn="id">
@@ -104,6 +131,7 @@
                 </th>
             </tr>
         </ng-template>
+        
         <ng-template #body let-row>
             <tr>
                 <td>{{ row.id }}</td>
@@ -125,6 +153,17 @@
             </tr>
         </ng-template>
     </p-table>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !errorMessage && rowData.length === 0" style="text-align: center; padding: 3rem;">
+        <i class="pi pi-inbox" style="font-size: 3rem; color: #9ca3af;"></i>
+        <h3 style="margin: 1rem 0; color: #374151;">No restaurants found</h3>
+        <p style="color: #6b7280; margin-bottom: 1rem;">Get started by adding your first restaurant.</p>
+        <button (click)="refreshData()" 
+                style="padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">
+            Refresh Data
+        </button>
+    </div>
 
     <!-- Delete Confirmation Modal -->
     <p-dialog 
