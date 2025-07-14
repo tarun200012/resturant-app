@@ -118,7 +118,7 @@
 
                 <td style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;">
                     <p-button icon="pi pi-pencil" severity="warn" size="small" [rounded]="true"
-                        styleClass="hover:bg-blue-600" />
+                        styleClass="hover:bg-blue-600" (onClick)="editRestaurant(row)" />
                     <p-button icon="pi pi-trash" severity="danger" size="small" [rounded]="true"
                         styleClass="hover:bg-red-600" (onClick)="openDeleteDialog(row)" />
                 </td>

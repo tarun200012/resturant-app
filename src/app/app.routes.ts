@@ -5,5 +5,6 @@ import { RestaurantTable } from './restaurant-table/restaurant-table';
 export const routes: Routes = [
   { path: '', component: RestaurantTable },
   { path: 'add-restaurant', component: ResturantForm },
+  { path: 'edit-restaurant/:id', component: ResturantForm },
   { path: '**', redirectTo: '' }
 ];

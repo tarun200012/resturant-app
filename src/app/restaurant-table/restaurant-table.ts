@@ -4,6 +4,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface Restaurant {
   id: number;
@@ -94,6 +95,13 @@ export class RestaurantTable {
       address: "654 Beacon St, Back Bay"
     }
   ];
+
+  constructor(private router: Router) {}
+
+  // Navigate to edit restaurant page
+  protected editRestaurant(restaurant: RowData): void {
+    this.router.navigate(['/edit-restaurant', restaurant.id]);
+  }
 
   // Open delete confirmation modal
   protected openDeleteDialog(restaurant: RowData): void {

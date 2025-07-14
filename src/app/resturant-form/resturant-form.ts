@@ -1,17 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SafeParseReturnType, z } from 'zod';
-import { Router } from '@angular/router';
- 
+import { Router, ActivatedRoute } from '@angular/router';
+
+// Mock data interface
+interface RestaurantData {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+  city: string;
+  state: string;
+  country: string;
+  address: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-resturant-form',
   imports: [ButtonModule, FormsModule, CommonModule],
   templateUrl: './resturant-form.html',
   styleUrl: './resturant-form.css'
 })
-export class ResturantForm {
+export class ResturantForm implements OnInit {
+  protected isEditMode = false;
+  protected restaurantId: number | null = null;
+
   // Zod validation schema
   private restaurantSchema = z.object({
     name: z.string().min(1, "Restaurant name is required").trim(),
@@ -44,7 +60,103 @@ export class ResturantForm {
   // Field-specific error messages
   protected fieldErrors: { [key: string]: string } = {};
 
-  constructor(private router: Router) {}
+  // Mock data for all restaurants
+  private mockRestaurants: RestaurantData[] = [
+    {
+      id: 1,
+      name: "Pizza Palace",
+      description: "Authentic Italian pizza with fresh ingredients",
+      mobile: "+1-555-0123",
+      email: "info@pizzapalace.com",
+      city: "New York",
+      state: "NY",
+      country: "USA",
+      address: "123 Broadway St, Manhattan"
+    },
+    {
+      id: 2,
+      name: "Sushi Express",
+      description: "Fresh sushi and Japanese cuisine",
+      mobile: "+1-555-0456",
+      email: "contact@sushiexpress.com",
+      city: "Los Angeles",
+      state: "CA",
+      country: "USA",
+      address: "456 Sunset Blvd, Hollywood"
+    },
+    {
+      id: 3,
+      name: "Burger House",
+      description: "Gourmet burgers and comfort food",
+      mobile: "+1-555-0789",
+      email: "hello@burgerhouse.com",
+      city: "Chicago",
+      state: "IL",
+      country: "USA",
+      address: "789 Michigan Ave, Downtown"
+    },
+    {
+      id: 4,
+      name: "Taco Fiesta",
+      description: "Authentic Mexican street food",
+      mobile: "+1-555-0321",
+      email: "orders@tacofiesta.com",
+      city: "Miami",
+      state: "FL",
+      country: "USA",
+      address: "321 Ocean Dr, South Beach"
+    },
+    {
+      id: 5,
+      name: "Pasta Corner",
+      description: "Traditional Italian pasta dishes",
+      mobile: "+1-555-0654",
+      email: "reservations@pastacorner.com",
+      city: "Boston",
+      state: "MA",
+      country: "USA",
+      address: "654 Beacon St, Back Bay"
+    }
+  ];
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    // Check if we're in edit mode by looking for an ID parameter
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.isEditMode = true;
+        this.restaurantId = +id;
+        this.loadRestaurantData(this.restaurantId);
+      } else {
+        this.isEditMode = false;
+        this.restaurantId = null;
+      }
+    });
+  }
+
+  // Load restaurant data for editing
+  private loadRestaurantData(id: number): void {
+    const restaurant = this.mockRestaurants.find(r => r.id === id);
+    if (restaurant) {
+      this.nameInput = restaurant.name;
+      this.emailInput = restaurant.email;
+      this.mobileInput = restaurant.mobile;
+      this.cityInput = restaurant.city;
+      this.stateInput = restaurant.state;
+      this.countryInput = restaurant.country;
+      this.addressInput = restaurant.address;
+      this.descriptionInput = restaurant.description;
+      console.log('Loaded restaurant data for editing:', restaurant);
+    } else {
+      console.error('Restaurant not found with ID:', id);
+      this.errorMessage = 'Restaurant not found';
+    }
+  }
 
   // Form validation method using Zod
   protected validateForm(): SafeParseReturnType<z.infer<typeof this.restaurantSchema>, z.infer<typeof this.restaurantSchema>> {
@@ -85,13 +197,18 @@ export class ResturantForm {
     return !!this.fieldErrors[fieldName];
   }
 
-  // Add restaurant method
+  // Add or update restaurant method
   protected addRestaurant(): void {
     this.clearMessages();
     const {success, data, error} = this.validateForm();
     if (success) {
-      console.log(data)
-      this.successMessage = "Restaurant added successfully.";
+      if (this.isEditMode && this.restaurantId) {
+        console.log('Updating restaurant with ID:', this.restaurantId, 'Data:', data);
+        this.successMessage = "Restaurant updated successfully!";
+      } else {
+        console.log('Adding new restaurant:', data);
+        this.successMessage = "Restaurant added successfully!";
+      }
       this.clearForm();
     } else {
       this.errorMessage = "Please fix the validation errors below.";
