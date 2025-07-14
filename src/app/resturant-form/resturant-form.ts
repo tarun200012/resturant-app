@@ -4,19 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SafeParseReturnType, z } from 'zod';
 import { Router, ActivatedRoute } from '@angular/router';
-
-// Mock data interface
-interface RestaurantData {
-  id: number;
-  name: string;
-  email: string;
-  mobile: string;
-  city: string;
-  state: string;
-  country: string;
-  address: string;
-  description: string;
-}
+import { insertRestaurant, updateRestaurant, getRestaurantById, CreateRestaurantData } from '../../api/index';
 
 @Component({
   selector: 'app-resturant-form',
@@ -60,64 +48,9 @@ export class ResturantForm implements OnInit {
   // Field-specific error messages
   protected fieldErrors: { [key: string]: string } = {};
 
-  // Mock data for all restaurants
-  private mockRestaurants: RestaurantData[] = [
-    {
-      id: 1,
-      name: "Pizza Palace",
-      description: "Authentic Italian pizza with fresh ingredients",
-      mobile: "+1-555-0123",
-      email: "info@pizzapalace.com",
-      city: "New York",
-      state: "NY",
-      country: "USA",
-      address: "123 Broadway St, Manhattan"
-    },
-    {
-      id: 2,
-      name: "Sushi Express",
-      description: "Fresh sushi and Japanese cuisine",
-      mobile: "+1-555-0456",
-      email: "contact@sushiexpress.com",
-      city: "Los Angeles",
-      state: "CA",
-      country: "USA",
-      address: "456 Sunset Blvd, Hollywood"
-    },
-    {
-      id: 3,
-      name: "Burger House",
-      description: "Gourmet burgers and comfort food",
-      mobile: "+1-555-0789",
-      email: "hello@burgerhouse.com",
-      city: "Chicago",
-      state: "IL",
-      country: "USA",
-      address: "789 Michigan Ave, Downtown"
-    },
-    {
-      id: 4,
-      name: "Taco Fiesta",
-      description: "Authentic Mexican street food",
-      mobile: "+1-555-0321",
-      email: "orders@tacofiesta.com",
-      city: "Miami",
-      state: "FL",
-      country: "USA",
-      address: "321 Ocean Dr, South Beach"
-    },
-    {
-      id: 5,
-      name: "Pasta Corner",
-      description: "Traditional Italian pasta dishes",
-      mobile: "+1-555-0654",
-      email: "reservations@pastacorner.com",
-      city: "Boston",
-      state: "MA",
-      country: "USA",
-      address: "654 Beacon St, Back Bay"
-    }
-  ];
+  // Loading states
+  protected loading = false;
+  protected loadingData = false;
 
   constructor(
     private router: Router,
@@ -140,21 +73,32 @@ export class ResturantForm implements OnInit {
   }
 
   // Load restaurant data for editing
-  private loadRestaurantData(id: number): void {
-    const restaurant = this.mockRestaurants.find(r => r.id === id);
-    if (restaurant) {
-      this.nameInput = restaurant.name;
-      this.emailInput = restaurant.email;
-      this.mobileInput = restaurant.mobile;
-      this.cityInput = restaurant.city;
-      this.stateInput = restaurant.state;
-      this.countryInput = restaurant.country;
-      this.addressInput = restaurant.address;
-      this.descriptionInput = restaurant.description;
-      console.log('Loaded restaurant data for editing:', restaurant);
-    } else {
-      console.error('Restaurant not found with ID:', id);
-      this.errorMessage = 'Restaurant not found';
+  private async loadRestaurantData(id: number): Promise<void> {
+    try {
+      this.loadingData = true;
+      this.errorMessage = "";
+      
+      const restaurant = await getRestaurantById(id);
+      
+      if (restaurant) {
+        this.nameInput = restaurant.name;
+        this.emailInput = restaurant.email;
+        this.mobileInput = restaurant.mobile;
+        this.cityInput = restaurant.city;
+        this.stateInput = restaurant.state;
+        this.countryInput = restaurant.country;
+        this.addressInput = restaurant.address;
+        this.descriptionInput = restaurant.description;
+        console.log('Loaded restaurant data for editing:', restaurant);
+      } else {
+        console.error('Restaurant not found with ID:', id);
+        this.errorMessage = 'Restaurant not found';
+      }
+    } catch (error) {
+      console.error('Error loading restaurant data:', error);
+      this.errorMessage = 'Failed to load restaurant data. Please try again.';
+    } finally {
+      this.loadingData = false;
     }
   }
 
@@ -198,18 +142,59 @@ export class ResturantForm implements OnInit {
   }
 
   // Add or update restaurant method
-  protected addRestaurant(): void {
+  protected async addRestaurant(): Promise<void> {
     this.clearMessages();
-    const {success, data, error} = this.validateForm();
+    const {success, data} = this.validateForm();
+    
     if (success) {
-      if (this.isEditMode && this.restaurantId) {
-        console.log('Updating restaurant with ID:', this.restaurantId, 'Data:', data);
-        this.successMessage = "Restaurant updated successfully!";
-      } else {
-        console.log('Adding new restaurant:', data);
-        this.successMessage = "Restaurant added successfully!";
+      try {
+        this.loading = true;
+        
+        if (this.isEditMode && this.restaurantId) {
+          // Update existing restaurant
+          const updateData: CreateRestaurantData = {
+            name: data.name,
+            email: data.email,
+            mobile: data.mobile,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            address: data.address,
+            description: data.description
+          };
+          
+          const updatedRestaurant = await updateRestaurant(this.restaurantId, updateData);
+          console.log('Restaurant updated successfully:', updatedRestaurant);
+          this.successMessage = "Restaurant updated successfully!";
+        } else {
+          // Insert new restaurant
+          const insertData: CreateRestaurantData = {
+            name: data.name,
+            email: data.email,
+            mobile: data.mobile,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            address: data.address,
+            description: data.description
+          };
+          
+          const newRestaurant = await insertRestaurant(insertData);
+          console.log('Restaurant added successfully:', newRestaurant);
+          this.successMessage = "Restaurant added successfully!";
+        }
+        
+        // Clear form after successful operation
+        this.clearForm();
+        
+      } catch (error) {
+        console.error('Error saving restaurant:', error);
+        this.errorMessage = this.isEditMode 
+          ? 'Failed to update restaurant. Please try again.' 
+          : 'Failed to add restaurant. Please try again.';
+      } finally {
+        this.loading = false;
       }
-      this.clearForm();
     } else {
       this.errorMessage = "Please fix the validation errors below.";
     }
