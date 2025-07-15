@@ -27,11 +27,7 @@ export class RestaurantTable {
 
   // Table data
   protected rowData: RowData[] = [];
-  protected errorMessage = "";
-
-  // Route subscription
-  private routeSubscription: Subscription | null = null;
-
+  protected errorMessage = "";  
 
   constructor(private router: Router, private cd: ChangeDetectorRef) { }
 
