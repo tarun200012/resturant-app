@@ -66,10 +66,8 @@ export class RestaurantTable {
       this.deleting = true;
       deleteRestaurant(this.restaurantToDelete.id).then(() => {
         this.deleting = false;
-
-      this.deleteDialogVisible = false;
-      this.restaurantToDelete = null;
-
+        this.deleteDialogVisible = false;
+        this.restaurantToDelete = null;
       }).finally(() => {
         getAllRestaurants()
           .then((res) => {
