@@ -7,18 +7,6 @@
         Back to Restaurants
       </button>
     </div>
-
-    <!-- Loading Data State -->
-    <div *ngIf="loadingData" style="margin-bottom: 20px; padding: 1rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; color: #0369a1;">
-        <i class="pi pi-spin pi-spinner"></i>
-        <span>Loading restaurant data...</span>
-      </div>
-    </div>
-
-    <h3 style="margin-bottom: 15px; color: #374151; font-size: 18px;">
-      {{ isEditMode ? 'Edit Restaurant' : 'Add New Restaurant' }}
-    </h3>
     
     <div style="margin-bottom: 15px;">
         <h4 style="margin-bottom: 10px; color: #6b7280; font-size: 14px;">Restaurant Information</h4>
@@ -115,8 +103,8 @@
 
     <!-- Action Buttons -->
     <div style="display: flex; gap: 10px; align-items: center;">
-        <p-button [label]="isEditMode ? 'Update Restaurant' : 'Add Restaurant'" 
-                 [icon]="loading ? 'pi pi-spin pi-spinner' : (isEditMode ? 'pi pi-check' : 'pi pi-plus')"
+        <p-button [label]="'Add / Update Restaurant'" 
+                 [icon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
                  (onClick)="addRestaurant()"
                  [disabled]="loading || loadingData"
                  styleClass="bg-green-500 hover:bg-green-600">

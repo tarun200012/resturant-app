@@ -13,7 +13,6 @@ import { insertRestaurant, updateRestaurant, getRestaurantById, CreateRestaurant
   styleUrl: './resturant-form.css'
 })
 export class ResturantForm implements OnInit {
-  protected isEditMode = false;
   protected restaurantId: number | null = null;
 
   // Zod validation schema
@@ -185,9 +184,6 @@ export class ResturantForm implements OnInit {
         
       } catch (error) {
         console.error('Error saving restaurant:', error);
-        this.errorMessage = this.isEditMode 
-          ? 'Failed to update restaurant. Please try again.' 
-          : 'Failed to add restaurant. Please try again.';
       } finally {
         this.loading = false;
       }
