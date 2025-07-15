@@ -72,8 +72,7 @@ export class ResturantForm implements OnInit {
 
   ngAfterViewInit() {
     if (this.restaurantId) {
-      this.isEditMode = true
-      getRestaurantById(this.restaurantId).then((restaurant) => {
+        getRestaurantById(this.restaurantId).then((restaurant) => {
         if (restaurant) {
           this.nameInput = restaurant.name;
           this.emailInput = restaurant.email;
@@ -137,7 +136,7 @@ export class ResturantForm implements OnInit {
       try {
         this.loading = true;
         
-        if (this.isEditMode && this.restaurantId) {
+        if (this.restaurantId) {
           // Update existing restaurant
           const updateData: CreateRestaurantData = {
             name: data.name,

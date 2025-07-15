@@ -93,6 +93,7 @@ export async function getRestaurantById(id: number) {
  * @returns Promise<Restaurant> - The updated restaurant
  */
 export async function updateRestaurant(id: number, restaurantData: CreateRestaurantData) {
+  
   // try {
   //   const restaurants = await getAllRestaurants();
   //   const restaurantIndex = restaurants.findIndex(r => r.id === id);
@@ -138,16 +139,3 @@ export async function deleteRestaurant(id: number) {
 
 }
 
-/**
- * Clear all restaurants from localStorage
- * @returns Promise<void>
- */
-export async function clearAllRestaurants() {
-  // try {
-  //   localStorage.removeItem(RESTAURANTS_STORAGE_KEY);
-  //   console.log('All restaurants cleared from localStorage');
-  // } catch (error) {
-  //   console.error('Error clearing restaurants:', error);
-  //   throw new Error('Failed to clear restaurants from database');
-  // }
-}
