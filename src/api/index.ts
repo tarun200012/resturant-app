@@ -9,8 +9,6 @@ export interface Restaurant {
   country: string;
   address: string;
   description: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // Restaurant data without auto-generated fields (for input)

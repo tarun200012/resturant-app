@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
@@ -32,17 +32,40 @@ export class RestaurantTable implements OnInit, OnDestroy {
   // Route subscription
   private routeSubscription: Subscription | null = null;
 
-  constructor(private router: Router) {}
+
+  constructor(private router: Router, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    
+    // getAllRestaurants().then((res) => {
+    //   this.rowData = res.map(({ location, ...rest }: any) => ({ ...rest, ...location }))
+    // }).catch(console.log).finally(() => {
+    //   this.cd.detectChanges();
+    // })
+
     // Subscribe to route changes to refresh data when returning to home page
     this.routeSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        
+        getAllRestaurants().then((res) => {
+          this.rowData = res
+        }).catch(console.log).finally(() => {
+          this.cd.detectChanges();
+        })
       });
   }
+
+  ngAfterViewInit(){
+    getAllRestaurants()
+      .then((res) => {
+        this.rowData = res.map(({ location, ...rest }: any) => ({
+          ...rest,
+          ...location
+        }));
+        this.cd.detectChanges(); // trigger view update manually
+      })
+      .catch(console.log);
+  }
+
 
   ngOnDestroy(): void {
     // Clean up subscription to prevent memory leaks
