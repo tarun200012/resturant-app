@@ -4,8 +4,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
 
 interface RowData extends Restaurant {
