@@ -93,35 +93,27 @@ export async function getRestaurantById(id: number) {
  * @returns Promise<Restaurant> - The updated restaurant
  */
 export async function updateRestaurant(id: number, restaurantData: CreateRestaurantData) {
-  
-  // try {
-  //   const restaurants = await getAllRestaurants();
-  //   const restaurantIndex = restaurants.findIndex(r => r.id === id);
-    
-  //   if (restaurantIndex === -1) {
-  //     throw new Error(`Restaurant with ID ${id} not found`);
-  //   }
-    
-  //   // Update restaurant data
-  //   const updatedRestaurant: Restaurant = {
-  //     ...restaurants[restaurantIndex],
-  //     ...restaurantData,
-  //     description: restaurantData.description || "",
-  //     updatedAt: new Date().toISOString()
-  //   };
-    
-  //   // Update in array
-  //   restaurants[restaurantIndex] = updatedRestaurant;
-    
-  //   // Save back to localStorage
-  //   localStorage.setItem(RESTAURANTS_STORAGE_KEY, JSON.stringify(restaurants));
-    
-  //   console.log('Restaurant updated successfully:', updatedRestaurant);
-  //   return updatedRestaurant;
-  // } catch (error) {
-  //   console.error('Error updating restaurant:', error);
-  //   throw new Error('Failed to update restaurant in database');
-  // }
+
+   const rawData = await fetch(`${BASE_URL}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: restaurantData.name,
+      email: restaurantData.email,
+      mobile: restaurantData.mobile,
+      location: {
+        city: restaurantData.city,
+        state: restaurantData.state,
+        country: restaurantData.country,
+        address: restaurantData.address,
+      },
+      description: restaurantData.description
+    })
+  })
+  const data = await rawData.json();
+  return data;
 }
 
 /**
