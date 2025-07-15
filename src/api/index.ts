@@ -74,14 +74,16 @@ export async function insertRestaurant(restaurantData: CreateRestaurantData) {
  * @returns Promise<Restaurant | null> - Restaurant data or null if not found
  */
 export async function getRestaurantById(id: number) {
-  try {
-    const restaurants = await getAllRestaurants();
-    const restaurant = restaurants.find(r => r.id === id);
-    return restaurant || null;
-  } catch (error) {
-    console.error('Error getting restaurant by ID:', error);
-    throw new Error('Failed to retrieve restaurant from database');
-  }
+  const rawData = await fetch(`${BASE_URL}/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  const { location, ...rest } = await rawData.json();
+
+  return { ...location, ...rest };
+
 }
 
 /**

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -54,7 +54,8 @@ export class ResturantForm implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -62,43 +63,29 @@ export class ResturantForm implements OnInit {
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.isEditMode = true;
         this.restaurantId = +id;
-        this.loadRestaurantData(this.restaurantId);
       } else {
-        this.isEditMode = false;
         this.restaurantId = null;
       }
     });
   }
 
-  // Load restaurant data for editing
-  private async loadRestaurantData(id: number): Promise<void> {
-    try {
-      this.loadingData = true;
-      this.errorMessage = "";
-      
-      const restaurant = await getRestaurantById(id);
-      
-      if (restaurant) {
-        this.nameInput = restaurant.name;
-        this.emailInput = restaurant.email;
-        this.mobileInput = restaurant.mobile;
-        this.cityInput = restaurant.city;
-        this.stateInput = restaurant.state;
-        this.countryInput = restaurant.country;
-        this.addressInput = restaurant.address;
-        this.descriptionInput = restaurant.description;
-        console.log('Loaded restaurant data for editing:', restaurant);
-      } else {
-        console.error('Restaurant not found with ID:', id);
-        this.errorMessage = 'Restaurant not found';
-      }
-    } catch (error) {
-      console.error('Error loading restaurant data:', error);
-      this.errorMessage = 'Failed to load restaurant data. Please try again.';
-    } finally {
-      this.loadingData = false;
+  ngAfterViewInit() {
+    if (this.restaurantId) {
+      this.isEditMode = true
+      getRestaurantById(this.restaurantId).then((restaurant) => {
+        if (restaurant) {
+          this.nameInput = restaurant.name;
+          this.emailInput = restaurant.email;
+          this.mobileInput = restaurant.mobile;
+          this.cityInput = restaurant.city;
+          this.stateInput = restaurant.state;
+          this.countryInput = restaurant.country;
+          this.addressInput = restaurant.address;
+          this.descriptionInput = restaurant.description;
+        }
+        this.cd.detectChanges()
+      }).catch(console.log);
     }
   }
 
