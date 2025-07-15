@@ -94,10 +94,26 @@ export class RestaurantTable implements OnInit, OnDestroy {
 
   protected confirmDelete(): void {
     if (this.restaurantToDelete) {
-      deleteRestaurant(this.restaurantToDelete.id);
       this.deleting = true;
+      deleteRestaurant(this.restaurantToDelete.id).then(() => {
+        this.deleting = false;
+
       this.deleteDialogVisible = false;
       this.restaurantToDelete = null;
+
+      }).finally(() => {
+        getAllRestaurants()
+          .then((res) => {
+            this.rowData = res.map(({ location, ...rest }: any) => ({
+              ...rest,
+              ...location
+            }));
+            this.cd.detectChanges(); // trigger view update manually
+          })
+          .catch(console.log);
+
+      });
+
     }
   }
 

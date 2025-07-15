@@ -127,23 +127,13 @@ export async function updateRestaurant(id: number, restaurantData: CreateRestaur
  * @returns Promise<boolean> - True if deleted successfully
  */
 export async function deleteRestaurant(id: number) {
-  // try {
-  //   const restaurants = await getAllRestaurants();
-  //   const filteredRestaurants = restaurants.filter(r => r.id !== id);
-    
-  //   if (filteredRestaurants.length === restaurants.length) {
-  //     throw new Error(`Restaurant with ID ${id} not found`);
-  //   }
-    
-  //   // Save back to localStorage
-  //   localStorage.setItem(RESTAURANTS_STORAGE_KEY, JSON.stringify(filteredRestaurants));
-    
-  //   console.log('Restaurant deleted successfully:', id);
-  //   return true;
-  // } catch (error) {
-  //   console.error('Error deleting restaurant:', error);
-  //   throw new Error('Failed to delete restaurant from database');
-  // }
+  const rawData = await fetch(`${BASE_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
 }
 
 /**
