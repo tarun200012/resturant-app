@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
@@ -23,7 +23,6 @@ export class RestaurantTable {
 
   // Table data
   protected rowData: Restaurant[] = [];
-  protected errorMessage = "";  
 
   constructor(private router: Router, private cd: ChangeDetectorRef) { }
 
