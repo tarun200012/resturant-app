@@ -19,7 +19,7 @@ interface RowData extends Restaurant {
   styleUrl: './restaurant-table.css'
 })
 
-export class RestaurantTable implements OnInit, OnDestroy {
+export class RestaurantTable {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
   protected restaurantToDelete: RowData | null = null;
@@ -35,24 +35,6 @@ export class RestaurantTable implements OnInit, OnDestroy {
 
   constructor(private router: Router, private cd: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    // getAllRestaurants().then((res) => {
-    //   this.rowData = res.map(({ location, ...rest }: any) => ({ ...rest, ...location }))
-    // }).catch(console.log).finally(() => {
-    //   this.cd.detectChanges();
-    // })
-
-    // Subscribe to route changes to refresh data when returning to home page
-    this.routeSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        getAllRestaurants().then((res) => {
-          this.rowData = res
-        }).catch(console.log).finally(() => {
-          this.cd.detectChanges();
-        })
-      });
-  }
 
   ngAfterViewInit(){
     getAllRestaurants()
@@ -65,15 +47,6 @@ export class RestaurantTable implements OnInit, OnDestroy {
       })
       .catch(console.log);
   }
-
-
-  ngOnDestroy(): void {
-    // Clean up subscription to prevent memory leaks
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
-  }
-
 
   // Navigate to edit restaurant page
   protected editRestaurant(restaurant: RowData): void {
