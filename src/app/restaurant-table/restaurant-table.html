@@ -4,7 +4,6 @@
         *ngIf="(rowData??[]).length > 0"
         [value]="rowData" 
         #dt2
-        [globalFilterFields]="['name', 'description', 'mobile', 'email', 'city', 'state', 'country', 'address']"
         [tableStyle]="{ 'min-width': '50rem' } " 
         paginator="true" 
         [rows]="10" 

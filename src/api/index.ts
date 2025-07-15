@@ -40,11 +40,6 @@ export async function getAllRestaurants(): Promise<Restaurant[]> {
   return data;
 }
 
-/**
- * Insert a new restaurant into localStorage
- * @param restaurantData - Restaurant data without ID and timestamps
- * @returns Promise<Restaurant> - The created restaurant with generated fields
- */
 export async function insertRestaurant(restaurantData: CreateRestaurantData) {
   const rawData = await fetch(BASE_URL, {
     method: 'POST',
@@ -68,11 +63,6 @@ export async function insertRestaurant(restaurantData: CreateRestaurantData) {
   return data;
 }
 
-/**
- * Get a single restaurant by ID
- * @param id - Restaurant ID
- * @returns Promise<Restaurant | null> - Restaurant data or null if not found
- */
 export async function getRestaurantById(id: number) {
   const rawData = await fetch(`${BASE_URL}/${id}`, {
     method: 'GET',
@@ -86,12 +76,6 @@ export async function getRestaurantById(id: number) {
 
 }
 
-/**
- * Update an existing restaurant
- * @param id - Restaurant ID
- * @param restaurantData - Updated restaurant data
- * @returns Promise<Restaurant> - The updated restaurant
- */
 export async function updateRestaurant(id: number, restaurantData: CreateRestaurantData) {
 
    const rawData = await fetch(`${BASE_URL}/${id}`, {
@@ -116,11 +100,6 @@ export async function updateRestaurant(id: number, restaurantData: CreateRestaur
   return data;
 }
 
-/**
- * Delete a restaurant by ID
- * @param id - Restaurant ID
- * @returns Promise<boolean> - True if deleted successfully
- */
 export async function deleteRestaurant(id: number) {
   const rawData = await fetch(`${BASE_URL}/${id}`, {
     method: 'DELETE',
