@@ -7,9 +7,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
 
-interface RowData extends Restaurant {
-  // TODO: add edit and delete handlers
-}
 
 @Component({
   selector: 'app-restaurant-table',
@@ -21,11 +18,11 @@ interface RowData extends Restaurant {
 export class RestaurantTable {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
-  protected restaurantToDelete: RowData | null = null;
+  protected restaurantToDelete: Restaurant | null = null;
   protected deleting = false;
 
   // Table data
-  protected rowData: RowData[] = [];
+  protected rowData: Restaurant[] = [];
   protected errorMessage = "";  
 
   constructor(private router: Router, private cd: ChangeDetectorRef) { }
@@ -44,12 +41,12 @@ export class RestaurantTable {
   }
 
   // Navigate to edit restaurant page
-  protected editRestaurant(restaurant: RowData): void {
+  protected editRestaurant(restaurant: Restaurant): void {
     this.router.navigate(['/edit-restaurant', restaurant.id]);
   }
 
   // Open delete confirmation modal
-  protected openDeleteDialog(restaurant: RowData): void {
+  protected openDeleteDialog(restaurant: Restaurant): void {
     this.restaurantToDelete = restaurant;
     this.deleteDialogVisible = true;
   }
