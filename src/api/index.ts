@@ -46,35 +46,26 @@ export async function getAllRestaurants(): Promise<Restaurant[]> {
  * @returns Promise<Restaurant> - The created restaurant with generated fields
  */
 export async function insertRestaurant(restaurantData: CreateRestaurantData) {
-  // try {
-  //   // Get existing restaurants
-  //   const existingRestaurants = await getAllRestaurants();
-    
-  //   // Generate new ID (max ID + 1)
-  //   const maxId = Math.max(...existingRestaurants.map(r => r.id), 0);
-  //   const newId = maxId + 1;
-    
-  //   // Create new restaurant with generated fields
-  //   const newRestaurant: Restaurant = {
-  //     id: newId,
-  //     ...restaurantData,
-  //     description: restaurantData.description || "",
-  //     createdAt: new Date().toISOString(),
-  //     updatedAt: new Date().toISOString()
-  //   };
-    
-  //   // Add to existing restaurants
-  //   const updatedRestaurants = [...existingRestaurants, newRestaurant];
-    
-  //   // Save back to localStorage
-  //   localStorage.setItem(RESTAURANTS_STORAGE_KEY, JSON.stringify(updatedRestaurants));
-    
-  //   console.log('Restaurant inserted successfully:', newRestaurant);
-  //   return newRestaurant;
-  // } catch (error) {
-  //   console.error('Error inserting restaurant:', error);
-  //   throw new Error('Failed to insert restaurant into database');
-  // }
+  const rawData = await fetch(BASE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: restaurantData.name,
+      email: restaurantData.email,
+      mobile: restaurantData.mobile,
+      location: {
+        city: restaurantData.city,
+        state: restaurantData.state,
+        country: restaurantData.country,
+        address: restaurantData.address,
+      },
+      description: restaurantData.description
+    })
+  })
+  const data = await rawData.json();
+  return data;
 }
 
 /**
