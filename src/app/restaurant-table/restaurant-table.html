@@ -1,14 +1,22 @@
 <div>
+
+    <div class="flex justify-end items-center mb-2" style="gap: 0.5rem;">
+        <label for="vertical" class="text-base font-medium text-gray-700">Rows per page:</label>
+        <p-inputnumber [(ngModel)]="value1" [min]="1" [max]="100" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" inputId="vertical"
+            [inputStyle]="{ width: '3rem', textAlign: 'center', fontSize: '1rem' }" style="width: 6rem;">
+            <ng-template #incrementbuttonicon>
+                <span class="pi pi-plus"></span>
+            </ng-template>
+            <ng-template #decrementbuttonicon>
+                <span class="pi pi-minus"></span>
+            </ng-template>
+        </p-inputnumber>
+    </div>
     <!-- Restaurant Table -->
-    <p-table
-        *ngIf="(rowData??[]).length > 0"
-        [value]="rowData" 
-        #dt2
-        [tableStyle]="{ 'min-width': '50rem' } " 
-        paginator="true" 
-        [rows]="10" 
-        sortMode="multiple">
-        
+    <p-table *ngIf="(rowData??[]).length > 0" [value]="rowData" #dt2 [tableStyle]="{ 'min-width': '50rem' } "
+        paginator="true" [rows]="value1" sortMode="multiple">
+
         <ng-template #header>
             <tr>
                 <th pSortableColumn="id">
@@ -111,7 +119,7 @@
                 </th>
             </tr>
         </ng-template>
-        
+
         <ng-template #body let-row>
             <tr>
                 <td>{{ row.id }}</td>
@@ -135,14 +143,9 @@
     </p-table>
 
     <!-- Delete Confirmation Modal -->
-    <p-dialog 
-        [(visible)]="deleteDialogVisible" 
-        modal="true" 
-        header="Confirm Delete" 
-        [style]="{width: '450px'}"
-        [draggable]="false" 
-        [resizable]="false">
-        
+    <p-dialog [(visible)]="deleteDialogVisible" modal="true" header="Confirm Delete" [style]="{width: '450px'}"
+        [draggable]="false" [resizable]="false">
+
         <div class="confirmation-content">
             <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #fbbf24; margin-right: 1rem;"></i>
             <p *ngIf="restaurantToDelete">
@@ -152,23 +155,15 @@
                 This action cannot be undone.
             </p>
         </div>
-        
+
         <ng-template pTemplate="footer">
             <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-                <p-button 
-                    label="Cancel" 
-                    icon="pi pi-times" 
-                    (onClick)="cancelDelete()" 
-                    [disabled]="deleting"
-                    severity="secondary" 
-                    [outlined]="true">
+                <p-button label="Cancel" icon="pi pi-times" (onClick)="cancelDelete()" [disabled]="deleting"
+                    severity="secondary" [outlined]="true">
                 </p-button>
-                <p-button 
-                    [label]="deleting ? 'Deleting...' : 'Delete'" 
-                    [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'" 
-                    (onClick)="confirmDelete()" 
-                    [disabled]="deleting"
-                    severity="danger">
+                <p-button [label]="deleting ? 'Deleting...' : 'Delete'"
+                    [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'" (onClick)="confirmDelete()"
+                    [disabled]="deleting" severity="danger">
                 </p-button>
             </div>
         </ng-template>

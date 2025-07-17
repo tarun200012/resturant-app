@@ -6,11 +6,13 @@ import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-restaurant-table',
-  imports: [TableModule, IconFieldModule, ButtonModule, DialogModule, CommonModule],
+  imports: [TableModule, IconFieldModule, ButtonModule, DialogModule, CommonModule, FormsModule, InputNumberModule],
   templateUrl: './restaurant-table.html',
   styleUrl: './restaurant-table.css'
 })
@@ -20,14 +22,16 @@ export class RestaurantTable {
   protected deleteDialogVisible = false;
   protected restaurantToDelete: Restaurant | null = null;
   protected deleting = false;
+  protected value1: number = 10;
 
   // Table data
   protected rowData: Restaurant[] = [];
 
-  constructor(private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private router: Router, private cd: ChangeDetectorRef) {
 
+  }
 
-  ngAfterViewInit(){
+  ngOnInit() {
     getAllRestaurants()
       .then((res) => {
         this.rowData = res.map(({ location, ...rest }: any) => ({
