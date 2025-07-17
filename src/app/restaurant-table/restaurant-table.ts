@@ -1,64 +1,55 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FormsModule } from '@angular/forms';
 
-interface RowData extends Restaurant {
-  // TODO: add edit and delete handlers
-}
 
 @Component({
   selector: 'app-restaurant-table',
-  imports: [TableModule, IconFieldModule, ButtonModule, DialogModule, CommonModule],
+  imports: [TableModule, IconFieldModule, ButtonModule, DialogModule, CommonModule, FormsModule, InputNumberModule],
   templateUrl: './restaurant-table.html',
   styleUrl: './restaurant-table.css'
 })
 
-export class RestaurantTable implements OnInit, OnDestroy {
+export class RestaurantTable {
   // Delete confirmation modal properties
   protected deleteDialogVisible = false;
-  protected restaurantToDelete: RowData | null = null;
+  protected restaurantToDelete: Restaurant | null = null;
   protected deleting = false;
+  protected value1: number = 10;
 
   // Table data
-  protected rowData: RowData[] = [];
-  protected errorMessage = "";
+  protected rowData: Restaurant[] = [];
 
-  // Route subscription
-  private routeSubscription: Subscription | null = null;
+  constructor(private router: Router, private cd: ChangeDetectorRef) {
 
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    
-    // Subscribe to route changes to refresh data when returning to home page
-    this.routeSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        
-      });
   }
 
-  ngOnDestroy(): void {
-    // Clean up subscription to prevent memory leaks
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
+  ngOnInit() {
+    getAllRestaurants()
+      .then((res) => {
+        this.rowData = res.map(({ location, ...rest }: any) => ({
+          ...rest,
+          ...location
+        }));
+        this.cd.detectChanges(); // trigger view update manually
+      })
+      .catch(console.log);
   }
-
 
   // Navigate to edit restaurant page
-  protected editRestaurant(restaurant: RowData): void {
+  protected editRestaurant(restaurant: Restaurant): void {
     this.router.navigate(['/edit-restaurant', restaurant.id]);
   }
 
   // Open delete confirmation modal
-  protected openDeleteDialog(restaurant: RowData): void {
+  protected openDeleteDialog(restaurant: Restaurant): void {
     this.restaurantToDelete = restaurant;
     this.deleteDialogVisible = true;
   }
@@ -71,10 +62,24 @@ export class RestaurantTable implements OnInit, OnDestroy {
 
   protected confirmDelete(): void {
     if (this.restaurantToDelete) {
-      deleteRestaurant(this.restaurantToDelete.id);
       this.deleting = true;
-      this.deleteDialogVisible = false;
-      this.restaurantToDelete = null;
+      deleteRestaurant(this.restaurantToDelete.id).then(() => {
+        this.deleting = false;
+        this.deleteDialogVisible = false;
+        this.restaurantToDelete = null;
+      }).finally(() => {
+        getAllRestaurants()
+          .then((res) => {
+            this.rowData = res.map(({ location, ...rest }: any) => ({
+              ...rest,
+              ...location
+            }));
+            this.cd.detectChanges(); // trigger view update manually
+          })
+          .catch(console.log);
+
+      });
+
     }
   }
 
