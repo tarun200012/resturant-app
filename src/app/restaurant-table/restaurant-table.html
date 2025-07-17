@@ -1,17 +1,22 @@
 <div>
 
     <div class="flex justify-end items-center mb-2" style="gap: 0.5rem;">
-        <label for="vertical" class="text-base font-medium text-gray-700">Rows per page:</label>
-        <p-inputnumber [(ngModel)]="value1" [min]="1" [max]="100" [showButtons]="true" buttonLayout="horizontal"
-            spinnerMode="horizontal" inputId="vertical"
-            [inputStyle]="{ width: '3rem', textAlign: 'center', fontSize: '1rem' }" style="width: 6rem;">
-            <ng-template #incrementbuttonicon>
-                <span class="pi pi-plus"></span>
-            </ng-template>
-            <ng-template #decrementbuttonicon>
-                <span class="pi pi-minus"></span>
-            </ng-template>
-        </p-inputnumber>
+        <div>
+            <label for="vertical" class="text-base font-medium text-gray-700">Rows per page: </label>
+            <p-inputnumber [(ngModel)]="value1" [min]="1" [max]="100" [showButtons]="true" buttonLayout="horizontal"
+                spinnerMode="horizontal" inputId="vertical"
+                [inputStyle]="{ width: '3rem', textAlign: 'center', fontSize: '1rem' }" style="width: 6rem;">
+                <ng-template #incrementbuttonicon>
+                    <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                    <span class="pi pi-minus"></span>
+                </ng-template>
+            </p-inputnumber>
+        </div>
+        <div>
+            <p>Total restraunts: {{ rowData.length }}</p>
+        </div>
     </div>
     <!-- Restaurant Table -->
     <p-table *ngIf="(rowData??[]).length > 0" [value]="rowData" #dt2 [tableStyle]="{ 'min-width': '50rem' } "
@@ -125,7 +130,8 @@
                 <td class="w-28 min-w-28 max-w-28">{{ row.country }}</td>
                 <td class="w-56 min-w-56 max-w-56">{{ row.address }}</td>
 
-                <td class="w-28 min-w-28 max-w-28" style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;">
+                <td class="w-28 min-w-28 max-w-28"
+                    style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;">
                     <p-button icon="pi pi-pencil" severity="warn" size="small" [rounded]="true"
                         styleClass="hover:bg-blue-600" (onClick)="editRestaurant(row)" />
                     <p-button icon="pi pi-trash" severity="danger" size="small" [rounded]="true"
@@ -134,6 +140,7 @@
             </tr>
         </ng-template>
     </p-table>
+
 
     <!-- Delete Confirmation Modal -->
     <p-dialog [(visible)]="deleteDialogVisible" modal="true" header="Confirm Delete" [style]="{width: '450px'}"
