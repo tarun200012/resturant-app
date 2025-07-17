@@ -42,3 +42,41 @@
   color: #374151;
   font-weight: 600;
 }
+
+
+::ng-deep p-columnFilter[field="id"] input {
+  width: 40px;
+}
+
+::ng-deep p-columnFilter[field="name"] input {
+  width: 80px;
+}
+
+::ng-deep p-columnFilter[field="description"] input {
+  width: 100px;
+}
+
+::ng-deep p-columnFilter[field="mobile"] input {
+  width: 100px;
+}
+
+::ng-deep p-columnFilter[field="email"] input {
+  width: 120px;
+}
+
+::ng-deep p-columnFilter[field="city"] input {
+  width: 70px;
+}
+
+::ng-deep p-columnFilter[field="state"] input {
+  width: 50px;
+}
+
+::ng-deep p-columnFilter[field="country"] input {
+  width: 60px;
+}
+
+::ng-deep p-columnFilter[field="address"] input {
+  width: 100px;
+}
+
