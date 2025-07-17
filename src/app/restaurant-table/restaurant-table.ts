@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { getAllRestaurants, deleteRestaurant, Restaurant } from '../../api/index';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { RestaurantDataService } from '../services/restaurant-data.service';
 
 
 @Component({
@@ -27,7 +28,11 @@ export class RestaurantTable {
   // Table data
   protected rowData: Restaurant[] = [];
 
-  constructor(private router: Router, private cd: ChangeDetectorRef) {
+  constructor(
+    private router: Router, 
+    private cd: ChangeDetectorRef,
+    private restaurantDataService: RestaurantDataService
+  ) {
 
   }
 
@@ -45,6 +50,8 @@ export class RestaurantTable {
 
   // Navigate to edit restaurant page
   protected editRestaurant(restaurant: Restaurant): void {
+    // Store the restaurant data in the service
+    this.restaurantDataService.setRestaurantData(restaurant);
     this.router.navigate(['/edit-restaurant', restaurant.id]);
   }
 

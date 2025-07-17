@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SafeParseReturnType, z } from 'zod';
 import { Router, ActivatedRoute } from '@angular/router';
 import { insertRestaurant, updateRestaurant, getRestaurantById, CreateRestaurantData } from '../../api/index';
+import { RestaurantDataService } from '../services/restaurant-data.service';
 
 @Component({
   selector: 'app-resturant-form',
@@ -54,7 +55,8 @@ export class ResturantForm implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private restaurantDataService: RestaurantDataService
   ) {}
 
   ngOnInit(): void {
@@ -71,19 +73,23 @@ export class ResturantForm implements OnInit {
 
   ngAfterViewInit() {
     if (this.restaurantId) {
-        getRestaurantById(this.restaurantId).then((restaurant) => {
-        if (restaurant) {
-          this.nameInput = restaurant.name;
-          this.emailInput = restaurant.email;
-          this.mobileInput = restaurant.mobile;
-          this.cityInput = restaurant.city;
-          this.stateInput = restaurant.state;
-          this.countryInput = restaurant.country;
-          this.addressInput = restaurant.address;
-          this.descriptionInput = restaurant.description;
-        }
-        this.cd.detectChanges()
-      }).catch(console.log);
+      // Try to get data from service first (for edit mode)
+      const restaurantData = this.restaurantDataService.getRestaurantData();
+      
+      if (restaurantData) {
+        // Use data from service (no API call needed)
+        this.nameInput = restaurantData.name;
+        this.emailInput = restaurantData.email;
+        this.mobileInput = restaurantData.mobile;
+        this.cityInput = restaurantData.city;
+        this.stateInput = restaurantData.state;
+        this.countryInput = restaurantData.country;
+        this.addressInput = restaurantData.address;
+        this.descriptionInput = restaurantData.description;
+        
+        // Clear the service data after using it
+        this.restaurantDataService.clearRestaurantData();
+      }
     }
   }
 
