@@ -1,5 +1,6 @@
-<div>
-
+<div>                    
+    
+    <!-- <p>Total restraunts: {{(rowData ?? []).length}} </p> -->
     <div class="flex justify-end items-center mb-2" style="gap: 0.5rem;">
         <div>
             <label for="vertical" class="text-base font-medium text-gray-700">Rows per page: </label>
@@ -14,131 +15,128 @@
                 </ng-template>
             </p-inputnumber>
         </div>
-        <div>
-            <p>Total restraunts: {{ rowData.length }}</p>
-        </div>
     </div>
     <!-- Restaurant Table -->
-    <p-table *ngIf="(rowData??[]).length > 0" [value]="rowData" #dt2 [tableStyle]="{ 'min-width': '50rem' } "
+    <p-table *ngIf="(rowData??[]).length >= 0" [value]="rowData" #dt2 [tableStyle]="{ 'min-width': '50rem' } "
         paginator="true" [rows]="value1" sortMode="multiple">
 
-        <ng-template #header>
-            <tr>
-                <th pSortableColumn="name" class="w-40 min-w-40 max-w-40">
-                    <div class="flex items-center gap-2">
-                        Name
-                        <p-sortIcon field="name" />
-                    </div>
-                </th>
-                <th pSortableColumn="description" class="w-56 min-w-56 max-w-56">
-                    <div class="flex items-center gap-2">
-                        Description
-                        <p-sortIcon field="description" />
-                    </div>
-                </th>
-                <th pSortableColumn="mobile" class="w-32 min-w-32 max-w-32">
-                    <div class="flex items-center gap-2">
-                        Mobile
-                        <p-sortIcon field="mobile" />
-                    </div>
-                </th>
-                <th pSortableColumn="email" class="w-52 min-w-52 max-w-52">
-                    <div class="flex items-center gap-2">
-                        Email
-                        <p-sortIcon field="email" />
-                    </div>
-                </th>
-                <th pSortableColumn="city" class="w-28 min-w-28 max-w-28">
-                    <div class="flex items-center gap-2">
-                        City
-                        <p-sortIcon field="city" />
-                    </div>
-                </th>
-                <th pSortableColumn="state" class="w-24 min-w-24 max-w-24">
-                    <div class="flex items-center gap-2">
-                        State
-                        <p-sortIcon field="state" />
-                    </div>
-                </th>
-                <th pSortableColumn="country" class="w-28 min-w-28 max-w-28">
-                    <div class="flex items-center gap-2">
-                        Country
-                        <p-sortIcon field="country" />
-                    </div>
-                </th>
-                <th pSortableColumn="address" class="w-56 min-w-56 max-w-56">
-                    <div class="flex items-center gap-2">
-                        Address
-                        <p-sortIcon field="address" />
-                    </div>
-                </th>
-                <th class="w-28 min-w-28 max-w-28">
-                    <div class="flex items-center gap-2">
-                        Actions
-                    </div>
-                </th>
-            </tr>
+            <ng-template #header>
+                <tr>
+                    <th pSortableColumn="name" class="w-40 min-w-40 max-w-40">
+                        <div class="flex items-center gap-2">
+                            Name
+                            <p-sortIcon field="name" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="description" class="w-56 min-w-56 max-w-56">
+                        <div class="flex items-center gap-2">
+                            Description
+                            <p-sortIcon field="description" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="mobile" class="w-32 min-w-32 max-w-32">
+                        <div class="flex items-center gap-2">
+                            Mobile
+                            <p-sortIcon field="mobile" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="email" class="w-52 min-w-52 max-w-52">
+                        <div class="flex items-center gap-2">
+                            Email
+                            <p-sortIcon field="email" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="city" class="w-28 min-w-28 max-w-28">
+                        <div class="flex items-center gap-2">
+                            City
+                            <p-sortIcon field="city" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="state" class="w-24 min-w-24 max-w-24">
+                        <div class="flex items-center gap-2">
+                            State
+                            <p-sortIcon field="state" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="country" class="w-28 min-w-28 max-w-28">
+                        <div class="flex items-center gap-2">
+                            Country
+                            <p-sortIcon field="country" />
+                        </div>
+                    </th>
+                    <th pSortableColumn="address" class="w-56 min-w-56 max-w-56">
+                        <div class="flex items-center gap-2">
+                            Address
+                            <p-sortIcon field="address" />
+                        </div>
+                    </th>
+                    <th class="w-28 min-w-28 max-w-28">
+                        <div class="flex items-center gap-2">
+                            Actions
+                        </div>
+                    </th>
+                </tr>
 
-            <tr>
-                <th>
-                    <p-columnFilter type="text" field="id" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="name" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="description" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="mobile" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="email" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="city" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="state" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="country" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="address" placeholder="Type to search" ariaLabel="Filter Name"
-                        filterOn="input"></p-columnFilter>
-                </th>
-            </tr>
-        </ng-template>
+                <tr>
+                    <th>
+                        <p-columnFilter type="text" field="id" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="name" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="description" placeholder="Type to search"
+                            ariaLabel="Filter Name" filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="mobile" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="email" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="city" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="state" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="country" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="address" placeholder="Type to search" ariaLabel="Filter Name"
+                            filterOn="input"></p-columnFilter>
+                    </th>
+                </tr>
+            </ng-template>
 
-        <ng-template #body let-row>
-            <tr>
-                <td class="w-40 min-w-40 max-w-40">{{ row.name }}</td>
-                <td class="w-56 min-w-56 max-w-56">{{ row.description }}</td>
-                <td class="w-32 min-w-32 max-w-32">{{ row.mobile }}</td>
-                <td class="w-52 min-w-52 max-w-52">{{ row.email }}</td>
-                <td class="w-28 min-w-28 max-w-28">{{ row.city }}</td>
-                <td class="w-24 min-w-24 max-w-24">{{ row.state }}</td>
-                <td class="w-28 min-w-28 max-w-28">{{ row.country }}</td>
-                <td class="w-56 min-w-56 max-w-56">{{ row.address }}</td>
+            <ng-template #body let-row>
+                <tr>
+                    <td class="w-40 min-w-40 max-w-40">{{ row.name }}</td>
+                    <td class="w-56 min-w-56 max-w-56">{{ row.description }}</td>
+                    <td class="w-32 min-w-32 max-w-32">{{ row.mobile }}</td>
+                    <td class="w-52 min-w-52 max-w-52">{{ row.email }}</td>
+                    <td class="w-28 min-w-28 max-w-28">{{ row.city }}</td>
+                    <td class="w-24 min-w-24 max-w-24">{{ row.state }}</td>
+                    <td class="w-28 min-w-28 max-w-28">{{ row.country }}</td>
+                    <td class="w-56 min-w-56 max-w-56">{{ row.address }}</td>
 
-                <td class="w-28 min-w-28 max-w-28"
-                    style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;">
-                    <p-button icon="pi pi-pencil" severity="warn" size="small" [rounded]="true"
-                        styleClass="hover:bg-blue-600" (onClick)="editRestaurant(row)" />
-                    <p-button icon="pi pi-trash" severity="danger" size="small" [rounded]="true"
-                        styleClass="hover:bg-red-600" (onClick)="openDeleteDialog(row)" />
-                </td>
-            </tr>
-        </ng-template>
+                    <td class="w-28 min-w-28 max-w-28"
+                        style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;">
+                        <p-button icon="pi pi-pencil" severity="warn" size="small" [rounded]="true"
+                            styleClass="hover:bg-blue-600" (onClick)="editRestaurant(row)" />
+                        <p-button icon="pi pi-trash" severity="danger" size="small" [rounded]="true"
+                            styleClass="hover:bg-red-600" (onClick)="openDeleteDialog(row)" />
+                    </td>
+                </tr>
+            </ng-template>
     </p-table>
 
 
@@ -168,4 +166,6 @@
             </div>
         </ng-template>
     </p-dialog>
+
+
 </div>
